@@ -12,6 +12,7 @@ class Libkeyfinder < Formula
   depends_on "qt5" => :build
   depends_on "fftw"
 
+  patch :DATA
 
   def install
     system "qmake"
@@ -31,3 +32,22 @@ class Libkeyfinder < Formula
     system "false"
   end
 end
+
+__END__
+diff --git a/LibKeyFinder.pro b/LibKeyFinder.pro
+index 149016c..fc8778d 100644
+--- a/LibKeyFinder.pro
++++ b/LibKeyFinder.pro
+@@ -81,9 +81,9 @@ macx{
+   CONFIG += x86_64
+ 
+   # installation of headers and the shared object
+-  target.path = /usr/local/lib
+-  headers.path = /usr/local/include/$$TARGET
+-  QMAKE_LFLAGS_SONAME = -Wl,-install_name,/usr/local/lib/
++  target.path = /lib
++  headers.path = /include/$$TARGET
++  QMAKE_LFLAGS_SONAME = -Wl,-install_name,/lib/
+ }
+ 
+ unix:!macx{
