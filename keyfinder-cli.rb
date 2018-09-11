@@ -8,7 +8,8 @@ class KeyfinderCli < Formula
   url      "https://github.com/EvanPurkhiser/keyfinder-cli/archive/v1.0.1.tar.gz"
   sha256   "8d43c80e13eda18297567e8acacb4849680c065c8c25fbad10a2a36b4392ab8d"
 
-  depends_on "libkeyfinder", "ffmpeg"
+  depends_on "libkeyfinder"
+  depends_on "ffmpeg"
 
   def install
     system "make install PREFIX=#{prefix}"
