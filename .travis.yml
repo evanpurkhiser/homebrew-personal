@@ -8,4 +8,4 @@ env:
 
 script:
   - brew tap EvanPurkhiser/personal
-  - brew install --build-from-source ./$PACKAGE.rb
+  - brew install --force --build-from-source ./$PACKAGE.rb
