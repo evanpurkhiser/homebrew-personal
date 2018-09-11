@@ -1,0 +1,11 @@
+language: bash
+os: osx
+
+env:
+  - PACKAGE=libkeyfinder
+  - PACKAGE=keyfinder-cli
+  - PACKAGE=tremc
+
+script:
+  - brew tap EvanPurkhiser/personal
+  - brew install --build-from-source ./$PACKAGE.rb
