@@ -7,6 +7,6 @@ env:
   - PACKAGE=tremc
 
 script:
-  - rm -r /usr/local/include/c++
+  - rm -rf /usr/local/include/c++
   - brew tap EvanPurkhiser/personal
   - brew install --force --build-from-source ./$PACKAGE.rb
