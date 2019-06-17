@@ -5,8 +5,8 @@
 class KeyfinderCli < Formula
   desc     "A CLI wrapper for libkeyfinder. Making DJs lives easier."
   homepage "https://github.com/EvanPurkhiser/keyfinder-cli"
-  url      "https://github.com/EvanPurkhiser/keyfinder-cli/archive/v1.0.1.tar.gz"
-  sha256   "8d43c80e13eda18297567e8acacb4849680c065c8c25fbad10a2a36b4392ab8d"
+  url      "https://github.com/EvanPurkhiser/keyfinder-cli/archive/v1.1.1.tar.gz"
+  sha256   "7ece4869c7060e7554e2d6c1bc6e09395dc02847aae551420a5530f120e0fd51"
 
   depends_on "libkeyfinder"
   depends_on "ffmpeg"
