@@ -35,12 +35,17 @@ end
 
 __END__
 diff --git a/LibKeyFinder.pro b/LibKeyFinder.pro
-index 149016c..fc8778d 100644
+index 149016c..4b9e935 100644
 --- a/LibKeyFinder.pro
 +++ b/LibKeyFinder.pro
-@@ -81,9 +81,9 @@ macx{
+@@ -76,14 +76,13 @@ macx{
+   LIBS += -stdlib=libc++
+   QMAKE_CXXFLAGS += -stdlib=libc++
+   QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
+-  QMAKE_MAC_SDK = macosx10.12
+   CONFIG -= ppc ppc64 x86
    CONFIG += x86_64
- 
+
    # installation of headers and the shared object
 -  target.path = /usr/local/lib
 -  headers.path = /usr/local/include/$$TARGET
@@ -49,5 +54,6 @@ index 149016c..fc8778d 100644
 +  headers.path = /include/$$TARGET
 +  QMAKE_LFLAGS_SONAME = -Wl,-install_name,/lib/
  }
- 
+
  unix:!macx{
+
