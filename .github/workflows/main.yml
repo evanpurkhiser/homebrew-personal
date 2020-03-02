@@ -1,0 +1,27 @@
+name: build
+on:
+  push:
+  schedule:
+  - cron: '0 0 * * *'
+
+jobs:
+  build:
+    name: build
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+        - libkeyfinder
+        - keyfinder-cli
+        - tremc
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build package
+      run: |
+        rm -rf /usr/local/include/c++
+        brew tap EvanPurkhiser/personal
+        brew install --force --build-from-source ./${{ matrix.package}}.rb
