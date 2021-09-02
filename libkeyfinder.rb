@@ -1,22 +1,19 @@
-# Documentation: http://docs.brew.sh/Formula-Cookbook.html
-#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
+require 'etc'
 
 class Libkeyfinder < Formula
   desc     "Musical key detection for digital audio, GPL v3"
-  homepage "https://github.com/ibsh/libKeyFinder"
-  url      "https://github.com/ibsh/libKeyFinder/archive/v2.2.1.tar.gz"
-  version  "v2.2.1"
-  sha256   "f168247012da2467af846d5a1301ca3eff23eb48938fb9b2dbbfa8dd0e5ccf10"
+  homepage "https://github.com/mixxxdj/libkeyfinder"
+  url      "https://github.com/mixxxdj/libkeyfinder/archive/refs/tags/v2.2.5.tar.gz"
+  version  "v2.2.5"
+  sha256   "516570e310f5bb5d87146fbefb129eb972dab3347987783554001e2cac26d9d6"
 
-  depends_on "qt5" => :build
+  depends_on "cmake" => :build
   depends_on "fftw"
 
-  patch :DATA
-
   def install
-    system "qmake"
-    system "INSTALL_ROOT=#{prefix} make install"
+    system "cmake -DCMAKE_INSTALL_PREFIX=#{prefix} -S . -B build"
+    system "cmake --build build --parallel #{Etc.nprocessors}"
+    system "cmake --install build"
   end
 
   test do
@@ -32,28 +29,3 @@ class Libkeyfinder < Formula
     system "false"
   end
 end
-
-__END__
-diff --git a/LibKeyFinder.pro b/LibKeyFinder.pro
-index 149016c..4b9e935 100644
---- a/LibKeyFinder.pro
-+++ b/LibKeyFinder.pro
-@@ -76,14 +76,13 @@ macx{
-   LIBS += -stdlib=libc++
-   QMAKE_CXXFLAGS += -stdlib=libc++
-   QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
--  QMAKE_MAC_SDK = macosx10.12
-   CONFIG -= ppc ppc64 x86
-   CONFIG += x86_64
-
-   # installation of headers and the shared object
--  target.path = /usr/local/lib
--  headers.path = /usr/local/include/$$TARGET
--  QMAKE_LFLAGS_SONAME = -Wl,-install_name,/usr/local/lib/
-+  target.path = /lib
-+  headers.path = /include/$$TARGET
-+  QMAKE_LFLAGS_SONAME = -Wl,-install_name,/lib/
- }
-
- unix:!macx{
-
