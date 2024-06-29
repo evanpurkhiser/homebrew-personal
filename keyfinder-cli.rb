@@ -1,12 +1,10 @@
-# Documentation: http://docs.brew.sh/Formula-Cookbook.html
-#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-
 class KeyfinderCli < Formula
   desc     "A CLI wrapper for libkeyfinder. Making DJs lives easier."
   homepage "https://github.com/evanpurkhiser/keyfinder-cli"
-  url      "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.1.1.tar.gz"
-  sha256   "7ece4869c7060e7554e2d6c1bc6e09395dc02847aae551420a5530f120e0fd51"
+  url      "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.1.2.tar.gz"
+  version  "v1.1.2"
+  license  "GPL-3.0-only"
+  sha256   "144539cd7fee223dca3a052435c1b2df0ab8b8c3170753ecc7f9c4d915d2bb07"
 
   depends_on "libkeyfinder"
   depends_on "ffmpeg"
