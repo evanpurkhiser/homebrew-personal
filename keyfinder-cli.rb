@@ -3,7 +3,7 @@ class KeyfinderCli < Formula
   homepage "https://github.com/evanpurkhiser/keyfinder-cli"
   url      "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.1.2.tar.gz"
   version  "v1.1.2"
-  license  "GPL-3.0-only"
+  license  "GPL-3.0-or-later"
   sha256   "144539cd7fee223dca3a052435c1b2df0ab8b8c3170753ecc7f9c4d915d2bb07"
 
   depends_on "libkeyfinder"

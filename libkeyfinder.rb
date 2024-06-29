@@ -5,7 +5,7 @@ class Libkeyfinder < Formula
   homepage "https://github.com/mixxxdj/libkeyfinder"
   url      "https://github.com/mixxxdj/libkeyfinder/archive/refs/tags/2.2.8.tar.gz"
   version  "v2.2.8"
-  license  "GPL-3.0-only"
+  license  "GPL-3.0-or-later"
   sha256   "a54fc6c5ff435bb4b447f175bc97f9081fb5abf0edd5d125e6f5215c8fff4d11"
 
   depends_on "cmake" => :build
