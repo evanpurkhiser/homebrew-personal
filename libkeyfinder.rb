@@ -3,9 +3,9 @@ require 'etc'
 class Libkeyfinder < Formula
   desc     "Musical key detection for digital audio, GPL v3"
   homepage "https://github.com/mixxxdj/libkeyfinder"
-  url      "https://github.com/mixxxdj/libkeyfinder/archive/refs/tags/2.2.7.tar.gz"
-  version  "v2.2.7"
-  sha256   "57dbd89c90b451e449d4652a29f078a90b847fefb29a242ab3c886f39d5d6998"
+  url      "https://github.com/mixxxdj/libkeyfinder/archive/refs/tags/2.2.8.tar.gz"
+  version  "v2.2.8"
+  sha256   "a54fc6c5ff435bb4b447f175bc97f9081fb5abf0edd5d125e6f5215c8fff4d11"
 
   depends_on "cmake" => :build
   depends_on "fftw"
