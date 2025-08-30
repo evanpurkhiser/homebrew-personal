@@ -1,9 +1,9 @@
 class Tremc < Formula
   desc "Curses interface for transmission"
   homepage "https://github.com/tremc/tremc"
-  url "https://github.com/tremc/tremc/archive/0.9.1.tar.gz"
-  version "0.9.1"
-  sha256 "ec1b37e43209c002bc4f621f6ab6a5124ec71d9fd5c5a8cabfd3e0622132412f"
+  url "https://github.com/tremc/tremc/archive/0.9.4.tar.gz"
+  version "0.9.4"
+  sha256 "f8cd45f2bfc1fa67dc8816659d81beacb9fd7b7a4a4b8402604a71c29836bd6f"
 
   def install
     system "make install PREFIX=#{prefix}"
