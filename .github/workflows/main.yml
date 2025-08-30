@@ -3,6 +3,9 @@ on:
   push:
   workflow_dispatch:
 
+env:
+  HOMEBREW_DEVELOPER: 1
+
 jobs:
   build:
     name: build
