@@ -25,5 +25,4 @@ jobs:
       - name: Build package
         run: |
           rm -rf /usr/local/include/c++
-          brew tap evanpurkhiser/personal
-          brew install --force --build-from-source ./${{ matrix.package}}.rb
+          brew install --force --build-from-source --formula ./${{ matrix.package}}.rb
