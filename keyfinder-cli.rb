@@ -1,10 +1,10 @@
 class KeyfinderCli < Formula
   desc     "A CLI wrapper for libkeyfinder. Making DJs lives easier."
   homepage "https://github.com/evanpurkhiser/keyfinder-cli"
-  url      "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.1.5.tar.gz"
-  version  "v1.1.5"
+  url      "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.2.0.tar.gz"
+  version  "v1.2.0"
   license  "GPL-3.0-or-later"
-  sha256   "14ec8f453e0873d1504ba517ae0950722ec30c451e694261d6c138810b1d1468"
+  sha256   "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
 
   depends_on "cmake" => :build
   depends_on "libkeyfinder"
