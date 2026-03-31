@@ -11,7 +11,7 @@ class Things3Cloud < Formula
   def install
     bin.install "things3-darwin-arm64" => "things3"
 
-    if system bin/"things3", "completions", "bash", out: File::NULL, err: File::NULL
+    if quiet_system bin/"things3", "completions", "bash"
       (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
       (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
       (fish_completion/"things3.fish").write Utils.safe_popen_read(bin/"things3", "completions", "fish")
