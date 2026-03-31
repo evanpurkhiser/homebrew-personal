@@ -1,9 +1,9 @@
 class Things3Cloud < Formula
   desc "Command line access for Things 3 Cloud API"
   homepage "https://github.com/evanpurkhiser/things3-cloud"
-  url "https://github.com/evanpurkhiser/things3-cloud/releases/download/v0.3.0/things3-darwin-arm64"
-  version "0.3.0"
-  sha256 "263e2a896e953128c99e4cc42fd3eedf66233f4fba187a5228b913777ba66b33"
+  url "https://github.com/evanpurkhiser/things3-cloud/releases/download/v0.5.0/things3-darwin-arm64"
+  version "0.5.0"
+  sha256 "4197db6773783bb7c20c31453236226bd6fe10e35f9fd43370c307ddfb2a3ebd"
   license "MIT"
 
   depends_on arch: :arm64
