@@ -11,9 +11,13 @@ class Things3Cloud < Formula
   def install
     bin.install "things3-darwin-arm64" => "things3"
 
-    (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
-    (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
-    (fish_completion/"things3.fish").write Utils.safe_popen_read(bin/"things3", "completions", "fish")
+    if system bin/"things3", "completions", "bash", out: File::NULL, err: File::NULL
+      (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
+      (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
+      (fish_completion/"things3.fish").write Utils.safe_popen_read(bin/"things3", "completions", "fish")
+    else
+      opoo "Skipping shell completion install: installed binary does not support `things3 completions`"
+    end
   end
 
   test do
