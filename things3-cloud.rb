@@ -11,9 +11,9 @@ class Things3Cloud < Formula
   def install
     bin.install "things3-darwin-arm64" => "things3"
 
-    (bash_completion/"things3").write shell_output("#{bin}/things3 completions bash")
-    (zsh_completion/"_things3").write shell_output("#{bin}/things3 completions zsh")
-    (fish_completion/"things3.fish").write shell_output("#{bin}/things3 completions fish")
+    (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
+    (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
+    (fish_completion/"things3.fish").write Utils.safe_popen_read(bin/"things3", "completions", "fish")
   end
 
   test do
