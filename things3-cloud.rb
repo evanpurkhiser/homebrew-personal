@@ -11,7 +11,7 @@ class Things3Cloud < Formula
 
   def install
     system "cargo", "install", *std_cargo_args
-    generate_completions_from_executable(bin/"things3", "completions", shell_parameter_format: :clap)
+    generate_completions_from_executable(bin/"things3", "completions", shell_parameter_format: :none)
   end
 
   test do
