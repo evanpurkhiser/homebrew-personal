@@ -46,7 +46,7 @@ jobs:
           
           # Always build to verify the formula and generate metadata
           brew install --force --build-bottle "$FORMULA"
-          brew bottle --force-core-tap "$FORMULA"
+          brew bottle --force-core-tap --json "$FORMULA"
 
           # Verify files were created and show current directory
           ls -la *.bottle.tar.gz *.json || echo "No bottle/json files found"
