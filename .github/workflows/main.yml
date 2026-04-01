@@ -39,7 +39,7 @@ jobs:
           TAG="${FORMULA_NAME}-${VERSION}"
 
           # 1. Build from source
-          brew install --force --build-from-source --formula "$FORMULA_FILE"
+          brew install --force --build-bottle --build-from-source --formula "$FORMULA_FILE"
 
           # 2. Check if a bottle for this version already exists in releases
           if gh release view "$TAG" >/dev/null 2>&1; then
