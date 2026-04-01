@@ -67,7 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ steps.bottle.outputs.tag }}"
-          gh release create "$TAG" --title "$TAG" --notes "Bottle for $TAG" || true
+          gh release create "$TAG" --title "$TAG" --notes "Bottle for $TAG" || echo "Release already exists"
 
       - name: Upload Bottle
         if: steps.bottle.outputs.exists == 'false'
@@ -75,7 +75,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ steps.bottle.outputs.tag }}"
-          gh release upload "$TAG" *.bottle.tar.gz
+          gh release upload "$TAG" *.bottle.tar.gz --clobber
 
       - name: Update Formula
         if: steps.bottle.outputs.exists == 'false'
