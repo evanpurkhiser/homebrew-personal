@@ -64,11 +64,11 @@ jobs:
           gh release upload "$TAG" *.bottle.tar.gz
 
           # 5. Update formula with bottle block
-          brew bottle --merge --write --force-core-tap "$FORMULA" *.json
+          brew bottle --merge --write --force-core-tap "$FORMULA_FILE" *.json
 
           # 6. Push updated formula back to repo
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "${FORMULA_NAME}.rb"
+          git add "$FORMULA_FILE"
           git commit -m "${FORMULA_NAME}: update bottle for ${VERSION}"
           git push origin main
