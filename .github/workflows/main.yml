@@ -86,7 +86,12 @@ jobs:
           # brew bottle --merge --write commits the change automatically
           brew bottle --merge --write --force-core-tap --root-url="$ROOT_URL" *.json
 
-          # Rebase on top of any changes from parallel jobs, then push
-          git pull --rebase origin main
-          git push --force-with-lease origin main
+          # Rebase on top of any changes from parallel jobs, then push.
+          # Retry loop handles the race where another job pushes between our
+          # rebase and push.
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push --force-with-lease origin main && break
+            echo "Push failed (attempt $i), retrying..."
+            sleep $((i * 2))
+          done
 
