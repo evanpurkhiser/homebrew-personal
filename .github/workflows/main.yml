@@ -43,14 +43,15 @@ jobs:
           rm -rf /usr/local/include/c++
           FORMULA_NAME="${{ matrix.package }}"
           FORMULA="evanpurkhiser/personal/${FORMULA_NAME}"
-          
-          # Always build to verify the formula and generate metadata
-          brew install --force --build-bottle "$FORMULA"
-          brew bottle --force-core-tap --json "$FORMULA"
 
           VERSION=$(brew info --json=v1 --formula "$FORMULA" | jq -r '.[0].versions.stable')
           TAG="${FORMULA_NAME}-${VERSION}"
-          
+          ROOT_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}"
+
+          # Always build to verify the formula and generate metadata
+          brew install --force --build-bottle "$FORMULA"
+          brew bottle --force-core-tap --json --root-url="$ROOT_URL" "$FORMULA"
+
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 

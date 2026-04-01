@@ -9,6 +9,7 @@ class Libkeyfinder < Formula
   sha256   "a54fc6c5ff435bb4b447f175bc97f9081fb5abf0edd5d125e6f5215c8fff4d11"
 
   bottle do
+    root_url "https://github.com/evanpurkhiser/homebrew-personal/releases/download/libkeyfinder-v2.2.8"
     sha256 cellar: :any, arm64_sequoia: "60014ba0ebc32d197d8624fb56ee77a0de10eac13b5a3971a22e708e5ae39fbb"
   end
 

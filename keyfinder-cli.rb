@@ -7,6 +7,7 @@ class KeyfinderCli < Formula
   sha256   "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
 
   bottle do
+    root_url "https://github.com/evanpurkhiser/homebrew-personal/releases/download/keyfinder-cli-v1.2.0"
     sha256 cellar: :any, arm64_sequoia: "085c731115d08f6a24d432f6ceea8406e2001f7bd7e4a9c4aee9a7025b327685"
   end
 
