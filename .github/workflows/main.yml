@@ -48,10 +48,6 @@ jobs:
           brew install --force --build-bottle "$FORMULA"
           brew bottle --force-core-tap --json "$FORMULA"
 
-          # Verify files were created and show current directory
-          ls -la *.bottle.tar.gz *.json || echo "No bottle/json files found"
-          pwd
-
           VERSION=$(brew info --json=v1 --formula "$FORMULA" | jq -r '.[0].versions.stable')
           TAG="${FORMULA_NAME}-${VERSION}"
           
@@ -63,7 +59,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if gh release view "${{ steps.bottle.outputs.tag }}" >/dev/null 2>&1; then
+          # Use GH API to check if the tag exists on the remote
+          if gh api "repos/${{ github.repository }}/releases/tags/${{ steps.bottle.outputs.tag }}" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
