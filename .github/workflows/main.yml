@@ -55,11 +55,21 @@ jobs:
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.actor }}
           HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          brew install skopeo
+
+          FORMULA_NAME="${{ matrix.package }}"
+          VERSION=$(brew info --json=v1 --formula "evanpurkhiser/personal/${FORMULA_NAME}" | jq -r '.[0].versions.stable')
+
+          # Skip if this bottle version is already published to GitHub Packages
+          IMAGE="ghcr.io/evanpurkhiser/personal/${FORMULA_NAME}:${VERSION}"
+          if skopeo inspect --creds "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" "docker://${IMAGE}" > /dev/null 2>&1; then
+            echo "Bottle ${IMAGE} already exists, skipping upload."
+            exit 0
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Upload the bottle to GitHub Packages, merge the bottle block into
-          # the formula, and commit. Skips upload if the bottle already exists.
           brew pr-upload --root-url="$BOTTLE_ROOT_URL" --warn-on-upload-failure
 
           git pull --rebase origin main && git push origin main
