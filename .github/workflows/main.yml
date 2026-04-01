@@ -60,7 +60,7 @@ jobs:
 
           # Upload the bottle to GitHub Packages, merge the bottle block into
           # the formula, and commit. Skips upload if the bottle already exists.
-          brew pr-upload --root-url="https://ghcr.io/v2/evanpurkhiser/personal" --warn-on-upload-failure *.json
+          brew pr-upload --root-url="https://ghcr.io/v2/evanpurkhiser/personal" --warn-on-upload-failure
 
           # Rebase on top of any changes from parallel jobs, then push.
           # Retry loop handles the race where another job pushes between our
