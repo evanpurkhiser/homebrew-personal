@@ -9,7 +9,7 @@ class Things3Cloud < Formula
   depends_on arch: :arm64
 
   def install
-    bin.install "things3-darwin-arm64" => "things3"
+    bin.install Dir["things3*"].first => "things3"
 
     (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
     (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
