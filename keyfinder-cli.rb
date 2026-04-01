@@ -6,10 +6,6 @@ class KeyfinderCli < Formula
   license  "GPL-3.0-or-later"
   sha256   "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
 
-  bottle do
-    root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any, arm64_sequoia: "f3669926255a543cb0f1f4016525d2dd4feda8bcdb4607363964220e2fceffb9"
-  end
   depends_on "cmake" => :build
   depends_on "libkeyfinder"
   depends_on "ffmpeg"
