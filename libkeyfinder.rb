@@ -10,7 +10,7 @@ class Libkeyfinder < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any, arm64_sequoia: "2c43e509a0a8370e85721e2c4f438b6e507a1ddb1f18472d94863f8e530e1993"
+    sha256 cellar: :any, arm64_sequoia: "c5e292326bbe5e14276d695a17bf4fea7555bf8e0c60360c92e07af0d3974f9e"
   end
 
   depends_on "cmake" => :build
