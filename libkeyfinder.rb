@@ -8,6 +8,11 @@ class Libkeyfinder < Formula
   license  "GPL-3.0-or-later"
   sha256   "a54fc6c5ff435bb4b447f175bc97f9081fb5abf0edd5d125e6f5215c8fff4d11"
 
+  bottle do
+    root_url "https://github.com/evanpurkhiser/homebrew-personal/releases/download/libkeyfinder-v2.2.8"
+    sha256 cellar: :any, arm64_sequoia: "401f80a25dd74dea3170a6ad199da3f85cfcda282bf0506088c8abe3c7a302c5"
+  end
+
   depends_on "cmake" => :build
   depends_on "fftw"
 
