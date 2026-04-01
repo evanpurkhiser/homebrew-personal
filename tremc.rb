@@ -2,7 +2,6 @@ class Tremc < Formula
   desc "Curses interface for transmission"
   homepage "https://github.com/tremc/tremc"
   url "https://github.com/tremc/tremc/archive/0.9.4.tar.gz"
-  version "0.9.4"
   sha256 "f8cd45f2bfc1fa67dc8816659d81beacb9fd7b7a4a4b8402604a71c29836bd6f"
 
   def install
