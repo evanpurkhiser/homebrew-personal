@@ -8,6 +8,11 @@ class Libkeyfinder < Formula
   license  "GPL-3.0-or-later"
   sha256   "a54fc6c5ff435bb4b447f175bc97f9081fb5abf0edd5d125e6f5215c8fff4d11"
 
+  bottle do
+    root_url "https://ghcr.io/v2/evanpurkhiser/personal"
+    sha256 cellar: :any, arm64_sequoia: "c1d60a308ac55ca90a5d26d27ada1f48ad019449e12e36481efc8d0becfb5d95"
+  end
+
   depends_on "cmake" => :build
   depends_on "fftw"
 
