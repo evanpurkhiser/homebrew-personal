@@ -7,6 +7,7 @@ on:
 
 env:
   HOMEBREW_DEVELOPER: 1
+  BOTTLE_ROOT_URL: "https://ghcr.io/v2/evanpurkhiser/personal"
 
 jobs:
   build:
@@ -43,11 +44,10 @@ jobs:
           rm -rf /usr/local/include/c++
           FORMULA_NAME="${{ matrix.package }}"
           FORMULA="evanpurkhiser/personal/${FORMULA_NAME}"
-          ROOT_URL="https://ghcr.io/v2/evanpurkhiser/personal"
 
           # Always build to verify the formula and generate metadata
           brew install --force --build-bottle "$FORMULA"
-          brew bottle --force-core-tap --json --root-url="$ROOT_URL" "$FORMULA"
+          brew bottle --force-core-tap --json --root-url="$BOTTLE_ROOT_URL" "$FORMULA"
 
       - name: Upload bottle and update formula
         env:
@@ -60,7 +60,7 @@ jobs:
 
           # Upload the bottle to GitHub Packages, merge the bottle block into
           # the formula, and commit. Skips upload if the bottle already exists.
-          brew pr-upload --root-url="https://ghcr.io/v2/evanpurkhiser/personal" --warn-on-upload-failure
+          brew pr-upload --root-url="$BOTTLE_ROOT_URL" --warn-on-upload-failure
 
           git pull --rebase origin main && git push origin main
 
