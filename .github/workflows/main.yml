@@ -27,7 +27,7 @@ jobs:
         run: |
           rm -rf /usr/local/include/c++
           FORMULA=./${{ matrix.package }}.rb
-          if grep -q '^\s*bottle do' "$FORMULA"; then
+          if brew info --json=v2 --formula "$FORMULA" | python3 -c "import sys,json; exit(0 if json.load(sys.stdin)['formulae'][0]['versions']['bottle'] else 1)"; then
             brew install --force --formula "$FORMULA"
             brew uninstall ${{ matrix.package }}
           fi
