@@ -3,7 +3,6 @@ class Things3Cloud < Formula
   homepage "https://github.com/evanpurkhiser/things3-cloud"
   url "https://github.com/evanpurkhiser/things3-cloud/archive/refs/tags/v0.5.2.tar.gz"
   sha256 "da0b8e0d7ddc4be327338aaf4b1a4c4c32eafdbc6c0f2993ec79ed9e2fbd3dd5"
-  version "0.5.2"
   license "MIT"
 
   head "https://github.com/evanpurkhiser/things3-cloud.git", branch: "main"
