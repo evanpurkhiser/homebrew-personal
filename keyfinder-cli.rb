@@ -8,7 +8,7 @@ class KeyfinderCli < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any, arm64_sequoia: "8a89dfe05073860c318ceaeae0d1b83270a1c58f69b80d8d13e3b9ec89d8aa75"
+    sha256 cellar: :any, arm64_sequoia: "bb4453c053b9b3484dc5c5411f6d2d136420925dca6e468537f5202ec9b7ede4"
   end
 
   depends_on "cmake" => :build
