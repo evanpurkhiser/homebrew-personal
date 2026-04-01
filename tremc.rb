@@ -5,6 +5,10 @@ class Tremc < Formula
   version "0.9.4"
   sha256 "f8cd45f2bfc1fa67dc8816659d81beacb9fd7b7a4a4b8402604a71c29836bd6f"
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0078e48698f1a4265d98bd13d589d1fe5ba11e606667750dd13f4a131772a1bf"
+  end
+
   def install
     system "make install PREFIX=#{prefix}"
   end
