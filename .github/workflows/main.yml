@@ -24,6 +24,7 @@ jobs:
 
     permissions:
       contents: write
+      packages: write
 
     steps:
       - uses: actions/checkout@v3
@@ -36,67 +37,30 @@ jobs:
           ln -s $GITHUB_WORKSPACE $(brew --repository)/Library/Taps/evanpurkhiser/homebrew-personal
 
       - name: Build and bottle package
-        id: bottle
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           rm -rf /usr/local/include/c++
           FORMULA_NAME="${{ matrix.package }}"
           FORMULA="evanpurkhiser/personal/${FORMULA_NAME}"
-
-          VERSION=$(brew info --json=v1 --formula "$FORMULA" | jq -r '.[0].versions.stable')
-          TAG="${FORMULA_NAME}-${VERSION}"
-          ROOT_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}"
+          ROOT_URL="https://ghcr.io/v2/evanpurkhiser/personal"
 
           # Always build to verify the formula and generate metadata
           brew install --force --build-bottle "$FORMULA"
           brew bottle --force-core-tap --json --root-url="$ROOT_URL" "$FORMULA"
 
-          echo "tag=${TAG}" >> $GITHUB_OUTPUT
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-
-      - name: Check if release exists
-        id: check_release
+      - name: Upload bottle and update formula
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.actor }}
+          HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Use GH API to check if the tag exists on the remote
-          if gh api "repos/${{ github.repository }}/releases/tags/${{ steps.bottle.outputs.tag }}" >/dev/null 2>&1; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Create Release and Upload Bottle
-        if: steps.check_release.outputs.exists == 'false'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="${{ steps.bottle.outputs.tag }}"
-
-          # Homebrew names the local file with double-dash (name--version) but
-          # constructs the download URL with single-dash (name-version). Rename
-          # each bottle asset so the uploaded filename matches what Homebrew expects.
-          for json_file in *.json; do
-            local_name=$(jq -r '[.[]][0].bottle.tags | to_entries[0].value.local_filename' "$json_file")
-            url_name=$(jq -r '[.[]][0].bottle.tags | to_entries[0].value.filename' "$json_file" | python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.stdin.read().strip()))")
-            echo "Renaming $local_name -> $url_name"
-            mv "$local_name" "$url_name"
-          done
-
-          gh release create "$TAG" *.bottle.tar.gz --title "$TAG" --notes "Bottle for $TAG" --target "${{ github.sha }}"
-
-      - name: Update Formula and Push
-        if: steps.check_release.outputs.exists == 'false'
-        run: |
-          TAG="${{ steps.bottle.outputs.tag }}"
-          ROOT_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}"
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # brew bottle --merge --write commits the change automatically
-          brew bottle --merge --write --force-core-tap --root-url="$ROOT_URL" *.json
+          # Upload the bottle to GitHub Packages, merge the bottle block into
+          # the formula, and commit. Skips upload if the bottle already exists.
+          brew pr-upload --root-url="https://ghcr.io/v2/evanpurkhiser/personal" --warn-on-upload-failure --force-core-tap *.json
 
           # Rebase on top of any changes from parallel jobs, then push.
           # Retry loop handles the race where another job pushes between our

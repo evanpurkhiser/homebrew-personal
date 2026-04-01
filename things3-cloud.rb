@@ -9,7 +9,7 @@ class Things3Cloud < Formula
   head "https://github.com/evanpurkhiser/things3-cloud.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/evanpurkhiser/homebrew-personal/releases/download/things3-cloud-0.5.2"
+    root_url "https://ghcr.io/v2/evanpurkhiser/personal"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "81e2e5823f76ac542a3544b030788170258097beacc4463aaaf32f255ca1941e"
   end
   depends_on arch: :arm64
