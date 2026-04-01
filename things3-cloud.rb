@@ -11,7 +11,9 @@ class Things3Cloud < Formula
 
   def install
     system "cargo", "install", *std_cargo_args
-    generate_completions_from_executable(bin/"things3", "completions", shell_parameter_format: :none)
+    (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
+    (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
+    (fish_completion/"things3.fish").write Utils.safe_popen_read(bin/"things3", "completions", "fish")
   end
 
   test do
