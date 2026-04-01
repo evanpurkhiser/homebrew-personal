@@ -27,6 +27,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up tap
+        run: |
+          mkdir -p $(brew --repository)/Library/Taps/evanpurkhiser
+          ln -s $GITHUB_WORKSPACE $(brew --repository)/Library/Taps/evanpurkhiser/homebrew-personal
 
       - name: Build and bottle package
         env:
@@ -34,12 +41,14 @@ jobs:
         run: |
           rm -rf /usr/local/include/c++
           FORMULA_NAME="${{ matrix.package }}"
-          FORMULA_FILE="./${FORMULA_NAME}.rb"
-          VERSION=$(brew info --json=v1 --formula "$FORMULA_FILE" | jq -r '.[0].versions.stable')
+          # Use the tap-qualified name
+          FORMULA="evanpurkhiser/personal/${FORMULA_NAME}"
+          
+          VERSION=$(brew info --json=v1 --formula "$FORMULA" | jq -r '.[0].versions.stable')
           TAG="${FORMULA_NAME}-${VERSION}"
 
           # 1. Build from source
-          brew install --force --build-bottle --formula "$FORMULA_FILE"
+          brew install --force --build-bottle "$FORMULA"
 
           # 2. Check if a bottle for this version already exists in releases
           if gh release view "$TAG" >/dev/null 2>&1; then
@@ -48,20 +57,18 @@ jobs:
           fi
 
           # 3. Create bottle artifact
-          # We need to use the formula name as it appears in the tap
-          brew bottle --force-core-tap "$FORMULA_FILE"
+          brew bottle --force-core-tap "$FORMULA"
 
           # 4. Create release and upload bottle
           gh release create "$TAG" --title "$TAG" --notes "Bottle for $TAG" || true
           gh release upload "$TAG" *.bottle.tar.gz
 
           # 5. Update formula with bottle block
-          # brew bottle --merge --write adds the block to the formula file
-          brew bottle --merge --write --force-core-tap "$FORMULA_FILE" *.json
+          brew bottle --merge --write --force-core-tap "$FORMULA" *.json
 
           # 6. Push updated formula back to repo
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$FORMULA_FILE"
+          git add "${FORMULA_NAME}.rb"
           git commit -m "${FORMULA_NAME}: update bottle for ${VERSION}"
           git push origin main
