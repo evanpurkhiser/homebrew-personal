@@ -26,4 +26,9 @@ jobs:
       - name: Build package
         run: |
           rm -rf /usr/local/include/c++
-          brew install --force --build-from-source --formula ./${{ matrix.package}}.rb
+          FORMULA=./${{ matrix.package }}.rb
+          if grep -q '^\s*bottle do' "$FORMULA"; then
+            brew install --force --formula "$FORMULA"
+            brew uninstall ${{ matrix.package }}
+          fi
+          brew install --force --build-from-source --formula "$FORMULA"
