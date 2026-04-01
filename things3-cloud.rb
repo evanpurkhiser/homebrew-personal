@@ -8,6 +8,10 @@ class Things3Cloud < Formula
 
   head "https://github.com/evanpurkhiser/things3-cloud.git", branch: "main"
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "f0ef0dd9cfee9c871df85c077b4465bbdd6905f36d57ed34cf40f8f5346898fb"
+  end
+
   depends_on arch: :arm64
   depends_on "rust" => :build
 
