@@ -5,6 +5,11 @@ class Tremc < Formula
   version "0.9.4"
   sha256 "f8cd45f2bfc1fa67dc8816659d81beacb9fd7b7a4a4b8402604a71c29836bd6f"
 
+  bottle do
+    root_url "https://github.com/evanpurkhiser/homebrew-personal/releases/download/tremc-0.9.4"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "49d6100e2cfea47414a0e669ef05fac9316fc20ee61fffd7c3724ce8e91cdf38"
+  end
+
   def install
     system "make install PREFIX=#{prefix}"
   end
