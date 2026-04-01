@@ -36,39 +36,58 @@ jobs:
           ln -s $GITHUB_WORKSPACE $(brew --repository)/Library/Taps/evanpurkhiser/homebrew-personal
 
       - name: Build and bottle package
+        id: bottle
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           rm -rf /usr/local/include/c++
           FORMULA_NAME="${{ matrix.package }}"
-          # Use the tap-qualified name
           FORMULA="evanpurkhiser/personal/${FORMULA_NAME}"
-          
           VERSION=$(brew info --json=v1 --formula "$FORMULA" | jq -r '.[0].versions.stable')
           TAG="${FORMULA_NAME}-${VERSION}"
+          
+          echo "formula=${FORMULA}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-          # 1. Build from source
-          brew install --force --build-bottle "$FORMULA"
-
-          # 2. Check if a bottle for this version already exists in releases
           if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Bottle for $TAG already exists, skipping bottling."
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Bottle for $TAG already exists, skipping build."
             exit 0
           fi
-
-          # 3. Create bottle artifact
+          
+          brew install --force --build-bottle "$FORMULA"
           brew bottle --force-core-tap "$FORMULA"
+          echo "exists=false" >> $GITHUB_OUTPUT
 
-          # 4. Create release and upload bottle
+      - name: Create Release
+        if: steps.bottle.outputs.exists == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.bottle.outputs.tag }}"
           gh release create "$TAG" --title "$TAG" --notes "Bottle for $TAG" || true
+
+      - name: Upload Bottle
+        if: steps.bottle.outputs.exists == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.bottle.outputs.tag }}"
           gh release upload "$TAG" *.bottle.tar.gz
 
-          # 5. Update formula with bottle block
+      - name: Update Formula
+        if: steps.bottle.outputs.exists == 'false'
+        run: |
+          FORMULA_FILE="./${{ matrix.package }}.rb"
           brew bottle --merge --write --force-core-tap "$FORMULA_FILE" *.json
 
-          # 6. Push updated formula back to repo
+      - name: Push Changes
+        if: steps.bottle.outputs.exists == 'false'
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$FORMULA_FILE"
-          git commit -m "${FORMULA_NAME}: update bottle for ${VERSION}"
+          git add "${{ matrix.package }}.rb"
+          git commit -m "${{ matrix.package }}: update bottle for ${{ steps.bottle.outputs.version }}"
           git push origin main
+
