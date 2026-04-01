@@ -80,20 +80,13 @@ jobs:
           TAG="${{ steps.bottle.outputs.tag }}"
           ROOT_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}"
 
-          # Update the recipe with the new bottle block and the correct root_url
-          brew bottle --merge --write --force-core-tap --root-url="$ROOT_URL" *.json
-
-          # Push changes
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          # Pull the latest changes to avoid conflicts from parallel jobs
+
+          # brew bottle --merge --write commits the change automatically
+          brew bottle --merge --write --force-core-tap --root-url="$ROOT_URL" *.json
+
+          # Rebase on top of any changes from parallel jobs, then push
           git pull --rebase origin main
-          
-          git add "*.rb"
-          if git commit -m "${{ matrix.package }}: update bottle for ${{ steps.bottle.outputs.version }}"; then
-            git push origin main
-          else
-            echo "No changes to commit"
-          fi
+          git push origin main
 
