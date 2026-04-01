@@ -73,6 +73,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ steps.bottle.outputs.tag }}"
+
+          # Homebrew names the local file with double-dash (name--version) but
+          # constructs the download URL with single-dash (name-version). Rename
+          # each bottle asset so the uploaded filename matches what Homebrew expects.
+          for json_file in *.json; do
+            local_name=$(jq -r '[.[]][0].bottle.tags | to_entries[0].value.local_filename' "$json_file")
+            url_name=$(jq -r '[.[]][0].bottle.tags | to_entries[0].value.filename' "$json_file" | python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.stdin.read().strip()))")
+            echo "Renaming $local_name -> $url_name"
+            mv "$local_name" "$url_name"
+          done
+
           gh release create "$TAG" *.bottle.tar.gz --title "$TAG" --notes "Bottle for $TAG" --target "${{ github.sha }}"
 
       - name: Update Formula and Push

@@ -5,12 +5,6 @@ class KeyfinderCli < Formula
   version  "v1.2.0"
   license  "GPL-3.0-or-later"
   sha256   "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
-
-  bottle do
-    root_url "https://github.com/evanpurkhiser/homebrew-personal/releases/download/keyfinder-cli-v1.2.0"
-    sha256 cellar: :any, arm64_sequoia: "6f2828fdc6982566751d64107481d44210ba776e385a7ff38a8b4fd303277e34"
-  end
-
   depends_on "cmake" => :build
   depends_on "libkeyfinder"
   depends_on "ffmpeg"
