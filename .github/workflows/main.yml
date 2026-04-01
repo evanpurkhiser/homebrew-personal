@@ -50,9 +50,10 @@ jobs:
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-          if gh release view "$TAG" >/dev/null 2>&1; then
+          # Check if the formula already has a bottle block in the repo
+          if brew info --json=v1 --formula "$FORMULA" | jq -e '.[0].bottle.stable' >/dev/null; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Bottle for $TAG already exists, skipping build."
+            echo "Bottle already defined in formula, skipping."
             exit 0
           fi
           
