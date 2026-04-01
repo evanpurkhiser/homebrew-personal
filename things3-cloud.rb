@@ -6,6 +6,8 @@ class Things3Cloud < Formula
   version "0.5.2"
   license "MIT"
 
+  head "https://github.com/evanpurkhiser/things3-cloud.git", branch: "main"
+
   depends_on arch: :arm64
   depends_on "rust" => :build
 
