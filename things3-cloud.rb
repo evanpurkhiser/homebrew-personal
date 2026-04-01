@@ -1,19 +1,17 @@
 class Things3Cloud < Formula
   desc "Command line access for Things 3 Cloud API"
   homepage "https://github.com/evanpurkhiser/things3-cloud"
-  url "https://github.com/evanpurkhiser/things3-cloud/releases/download/v0.5.2/things3-darwin-arm64"
+  url "https://github.com/evanpurkhiser/things3-cloud/archive/refs/tags/v0.5.2.tar.gz"
+  sha256 "da0b8e0d7ddc4be327338aaf4b1a4c4c32eafdbc6c0f2993ec79ed9e2fbd3dd5"
   version "0.5.2"
-  sha256 "e11b7c0c69d5c1ac00ee9fcb5b53eb85085c5dc3f6d80f8e9bafc95138ca684e"
   license "MIT"
 
   depends_on arch: :arm64
+  depends_on "rust" => :build
 
   def install
-    bin.install Dir["things3*"].first => "things3"
-
-    (bash_completion/"things3").write Utils.safe_popen_read(bin/"things3", "completions", "bash")
-    (zsh_completion/"_things3").write Utils.safe_popen_read(bin/"things3", "completions", "zsh")
-    (fish_completion/"things3.fish").write Utils.safe_popen_read(bin/"things3", "completions", "fish")
+    system "cargo", "install", *std_cargo_args
+    generate_completions_from_executable(bin/"things3", "completions", shell_parameter_format: :clap)
   end
 
   test do
