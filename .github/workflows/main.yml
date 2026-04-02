@@ -18,21 +18,39 @@ env:
   BOTTLE_ROOT_URL: "https://ghcr.io/v2/evanpurkhiser/personal"
 
 jobs:
+  prepare:
+    name: resolve formula matrix
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: packages
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PACKAGES=$(printf '["%s"]' "${{ github.event.inputs.formula }}")
+          else
+            PACKAGES=$(python3 - <<'PY'
+import json
+from pathlib import Path
+
+files = sorted(Path('.').glob('*.rb'))
+print(json.dumps([f.stem for f in files]))
+PY
+            )
+          fi
+
+          echo "packages=$PACKAGES" >> "$GITHUB_OUTPUT"
+
   build:
     name: build
+    needs: prepare
     runs-on: macos-latest
-
-    # On push-to-main runs, build all formulas. On workflow_dispatch, only run the selected formula.
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.formula == matrix.package
 
     strategy:
       fail-fast: false
       matrix:
-        package:
-          - libkeyfinder
-          - keyfinder-cli
-          - tremc
-          - things3-cloud
+        package: ${{ fromJSON(needs.prepare.outputs.packages) }}
 
     permissions:
       contents: write
