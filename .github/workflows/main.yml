@@ -122,7 +122,7 @@ jobs:
           VERSION=$(brew info --json=v1 --formula "evanpurkhiser/personal/${FORMULA_NAME}" | jq -r '.[0].versions.stable')
           VERSION="${VERSION#v}"
 
-          git add -A
+          git add "${FORMULA_NAME}.rb"
           git commit -m "${FORMULA_NAME}: v${VERSION} (bottled)"
 
       - name: Push commit
