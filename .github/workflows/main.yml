@@ -86,6 +86,7 @@ jobs:
           brew bottle --force-core-tap --json --root-url="$BOTTLE_ROOT_URL" "$FORMULA"
 
       - name: Upload bottle and update formula
+        id: upload
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_GITHUB_PACKAGES_USER: ${{ github.actor }}
@@ -108,15 +109,20 @@ jobs:
 
           brew pr-upload --root-url="$BOTTLE_ROOT_URL" --warn-on-upload-failure --no-commit
 
-      - name: Create bottle commit
+      - name: Determine if commit is needed
+        id: commit_check
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "should_commit=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_commit=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.commit_check.outputs.should_commit == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "No changes to commit"
-            exit 0
-          fi
 
           FORMULA_NAME="${{ matrix.package }}"
           VERSION=$(brew info --json=v1 --formula "evanpurkhiser/personal/${FORMULA_NAME}" | jq -r '.[0].versions.stable')
@@ -125,8 +131,6 @@ jobs:
           git add "${FORMULA_NAME}.rb"
           git commit -m "${FORMULA_NAME}: v${VERSION} (bottled)"
 
-      - name: Push commit
-        run: |
           TARGET_BRANCH="${{ github.ref_name }}"
           # workflow_dispatch runs from the selected ref, but the atomic bump+bottle commit should land on main.
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
