@@ -1,15 +1,15 @@
 class Things3Cloud < Formula
   desc "Command line access for Things 3 Cloud API"
   homepage "https://github.com/evanpurkhiser/things3-cloud"
-  url "https://github.com/evanpurkhiser/things3-cloud/archive/refs/tags/v0.6.1.tar.gz"
-  sha256 "52a5fcad84993db2e7e457a8db9c56ff5e9b90f34281b8955de42c2cf8b4f1d2"
+  url "https://github.com/evanpurkhiser/things3-cloud/archive/refs/tags/v0.6.2.tar.gz"
+  sha256 "9f2e1938237a5dff59863f6daa985d10a939c70893b655f93dab8c4f572729c1"
   license "MIT"
 
   head "https://github.com/evanpurkhiser/things3-cloud.git", branch: "main"
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a680065e1af3dc93938d901ad4e8e5c1378d1c14168930aeaebbecc8f52ddd8e"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "80b60f2d0e193a8630f08c2de2ac55fe45e1ede6452e367106c3856e216b0a8f"
   end
 
   depends_on arch: :arm64
