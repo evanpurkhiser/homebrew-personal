@@ -3,7 +3,15 @@ on:
   push:
     branches:
       - main
+  # Manual bump + bottle flow. This produces a single atomic commit on main.
   workflow_dispatch:
+    inputs:
+      formula:
+        description: Formula to bump and bottle
+        required: true
+      version:
+        description: New version
+        required: true
 
 env:
   HOMEBREW_DEVELOPER: 1
@@ -13,6 +21,9 @@ jobs:
   build:
     name: build
     runs-on: macos-latest
+
+    # On push-to-main runs, build all formulas. On workflow_dispatch, only run the selected formula.
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.formula == matrix.package
 
     strategy:
       fail-fast: false
@@ -36,6 +47,20 @@ jobs:
         run: |
           mkdir -p $(brew --repository)/Library/Taps/evanpurkhiser
           ln -s $GITHUB_WORKSPACE $(brew --repository)/Library/Taps/evanpurkhiser/homebrew-personal
+
+      - name: Bump formula
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          brew bump-formula-pr \
+            --write-only \
+            --no-audit \
+            --version="${{ github.event.inputs.version }}" \
+            "evanpurkhiser/personal/${{ github.event.inputs.formula }}"
 
       - name: Build and bottle package
         env:
@@ -70,7 +95,32 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          brew pr-upload --root-url="$BOTTLE_ROOT_URL" --warn-on-upload-failure
+          brew pr-upload --root-url="$BOTTLE_ROOT_URL" --warn-on-upload-failure --no-commit
 
-          git pull --rebase origin main && git push origin main
+      - name: Create bottle commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          FORMULA_NAME="${{ matrix.package }}"
+          VERSION=$(brew info --json=v1 --formula "evanpurkhiser/personal/${FORMULA_NAME}" | jq -r '.[0].versions.stable')
+          VERSION="${VERSION#v}"
+
+          git add -A
+          git commit -m "${FORMULA_NAME}: v${VERSION} (bottled)"
+
+      - name: Push commit
+        run: |
+          TARGET_BRANCH="${{ github.ref_name }}"
+          # workflow_dispatch runs from the selected ref, but the atomic bump+bottle commit should land on main.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TARGET_BRANCH="main"
+          fi
+
+          git pull --rebase origin "$TARGET_BRANCH"
+          git push origin HEAD:"$TARGET_BRANCH"
