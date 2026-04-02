@@ -30,14 +30,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             PACKAGES=$(printf '["%s"]' "${{ github.event.inputs.formula }}")
           else
-            PACKAGES=$(python3 - <<'PY'
-import json
-from pathlib import Path
-
-files = sorted(Path('.').glob('*.rb'))
-print(json.dumps([f.stem for f in files]))
-PY
-            )
+            PACKAGES=$(python3 -c 'import json; from pathlib import Path; files = sorted(Path(".").glob("*.rb")); print(json.dumps([f.stem for f in files]))')
           fi
 
           echo "packages=$PACKAGES" >> "$GITHUB_OUTPUT"
