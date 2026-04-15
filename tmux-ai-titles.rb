@@ -7,6 +7,11 @@ class TmuxAiTitles < Formula
 
   head "https://github.com/evanpurkhiser/tmux-ai-titles.git", branch: "main"
 
+  bottle do
+    root_url "https://ghcr.io/v2/evanpurkhiser/personal"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "373a3be5c15e6e83a57d0825a5f9551623d6d9a02f83c4fb15052ce53c198cbc"
+  end
+
   depends_on arch: :arm64
   depends_on "rust" => :build
 
