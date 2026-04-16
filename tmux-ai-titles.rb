@@ -1,15 +1,15 @@
 class TmuxAiTitles < Formula
   desc "AI-powered title generation for tmux panes and windows"
   homepage "https://github.com/evanpurkhiser/tmux-ai-titles"
-  url "https://github.com/evanpurkhiser/tmux-ai-titles/archive/refs/tags/v0.0.1.tar.gz"
-  sha256 "e6d5c40cf1743e48256c33ece3a76f62ca44595a7f5f592622d5c9794ad5eaff"
+  url "https://github.com/evanpurkhiser/tmux-ai-titles/archive/refs/tags/v0.1.0.tar.gz"
+  sha256 "693a39adb047a88bdd505aa8a47c400588563369f8cddd15f91203dd0bab883c"
   license "MIT"
 
   head "https://github.com/evanpurkhiser/tmux-ai-titles.git", branch: "main"
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "373a3be5c15e6e83a57d0825a5f9551623d6d9a02f83c4fb15052ce53c198cbc"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e51caec036b266111f27146eff7e8ebf4ec2a53baab3fe9aab284245198aa397"
   end
 
   depends_on arch: :arm64
