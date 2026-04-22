@@ -7,6 +7,11 @@ class IptorrentsCli < Formula
 
   head "https://github.com/evanpurkhiser/iptorrents-cli.git", branch: "main"
 
+  bottle do
+    root_url "https://ghcr.io/v2/evanpurkhiser/personal"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8f627e27349d4223f0e6e80c6232be24f5dc9d1a0fedaa5746f6d7049565675f"
+  end
+
   depends_on "rust" => :build
 
   def install
