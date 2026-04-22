@@ -1,15 +1,15 @@
 class IptorrentsCli < Formula
   desc "CLI for searching and downloading torrents from IPTorrents"
   homepage "https://github.com/evanpurkhiser/iptorrents-cli"
-  url "https://github.com/evanpurkhiser/iptorrents-cli/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "e42035d6be3092f4c8a3f82f14ffaaa0cc46a3647b6d01688bee7ef74a92fb3f"
+  url "https://github.com/evanpurkhiser/iptorrents-cli/archive/refs/tags/v0.1.3.tar.gz"
+  sha256 "276e47af834898639f52b6f882f9a1e22461427c81e4cdb65d5725951b2ca186"
   license "MIT"
 
   head "https://github.com/evanpurkhiser/iptorrents-cli.git", branch: "main"
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8f627e27349d4223f0e6e80c6232be24f5dc9d1a0fedaa5746f6d7049565675f"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8618ac0caa2687fcc6a594427d670cabd49b49e7a8970d3c6f84585ae4fcc025"
   end
 
   depends_on "rust" => :build
