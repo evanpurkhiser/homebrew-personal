@@ -1,15 +1,15 @@
 class Resyctl < Formula
   desc "Automation-friendly CLI for Resy with JSON output"
   homepage "https://github.com/evanpurkhiser/resyctl"
-  url "https://github.com/evanpurkhiser/resyctl/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "63100083af5f807f7f8d92a8918328d0808d56edc03c5575534f64b04911dbfb"
+  url "https://github.com/evanpurkhiser/resyctl/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "81442a1416d02a9cf082e2d67d364b9c640a8137e44796b419e1a2481169783f"
   license "MIT"
 
   head "https://github.com/evanpurkhiser/resyctl.git", branch: "main"
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "76f4c768d148c986164e9e5eed670aff5c92de9411c7c7b7de582311f98479e5"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "ac3b149b7d93443b830d83a50636a1bbc526c4de861715e333d656eeeae7afe2"
   end
 
   depends_on arch: :arm64
