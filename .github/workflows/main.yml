@@ -24,7 +24,7 @@ jobs:
     outputs:
       packages: ${{ steps.packages.outputs.packages }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: packages
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -50,14 +50,14 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up tap
         run: |
-          mkdir -p $(brew --repository)/Library/Taps/evanpurkhiser
-          ln -s $GITHUB_WORKSPACE $(brew --repository)/Library/Taps/evanpurkhiser/homebrew-personal
+          mkdir -p "$(brew --repository)/Library/Taps/evanpurkhiser"
+          ln -s "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/evanpurkhiser/homebrew-personal"
 
       - name: Bump formula
         if: github.event_name == 'workflow_dispatch'

@@ -1,10 +1,10 @@
 class KeyfinderCli < Formula
-  desc     "A CLI wrapper for libkeyfinder. Making DJs lives easier."
+  desc "A CLI wrapper for libkeyfinder. Making DJs lives easier."
   homepage "https://github.com/evanpurkhiser/keyfinder-cli"
-  url      "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.2.0.tar.gz"
-  version  "v1.2.0"
-  license  "GPL-3.0-or-later"
-  sha256   "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
+  url "https://github.com/evanpurkhiser/keyfinder-cli/archive/v1.2.0.tar.gz"
+  version "v1.2.0"
+  license "GPL-3.0-or-later"
+  sha256 "aa69e7fd8991e92898aa660768a448e47995ef25bcca6600474d768cd174d0a9"
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
