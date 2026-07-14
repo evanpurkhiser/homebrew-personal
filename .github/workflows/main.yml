@@ -24,7 +24,7 @@ jobs:
     outputs:
       packages: ${{ steps.packages.outputs.packages }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - id: packages
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -50,7 +50,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
