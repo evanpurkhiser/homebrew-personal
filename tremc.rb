@@ -6,7 +6,7 @@ class Tremc < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "c21da6b2ece41d6b187d65f0327fa4db2c5b7c60cff888e439788eb9c54d0988"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "29fb7e0093f1778afe2f78569c559f1001c390a366952817add8abc03ce0cd60"
   end
 
   def install

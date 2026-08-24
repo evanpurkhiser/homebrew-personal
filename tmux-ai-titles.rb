@@ -9,7 +9,7 @@ class TmuxAiTitles < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "06229d9314aee046e7a42e9d2c68f35599a89b12b484f752d8c0c57dd3aa3bbd"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "484de9aaf4951d7769dc4bb5820f810ddd6cc8b0eb690cfb8248aeaba77a0dfd"
   end
 
   depends_on arch: :arm64

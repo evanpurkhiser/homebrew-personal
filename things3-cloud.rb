@@ -9,7 +9,7 @@ class Things3Cloud < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "0c68e6b6afa342b20a7be93cb26816cafe79fa263eba61ea1475f012d906c16d"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "847915ec855119e59335d8dcf8cb6dbd5b70e6a21bb522b0299a006ec350e3f1"
   end
 
   depends_on arch: :arm64

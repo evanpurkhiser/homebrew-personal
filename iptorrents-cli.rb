@@ -9,7 +9,7 @@ class IptorrentsCli < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/evanpurkhiser/personal"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "88a8be7d15a04944b173eada2a05aec0e9e0592fde3cb5a6109b5a781d6bece1"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b753ebe057f20eaf711d2509476ed804388615dc01754c397d6af4e1bf43ae2c"
   end
 
   depends_on "rust" => :build
