@@ -142,24 +142,23 @@ jobs:
           HOMEBREW_GITHUB_PACKAGES_TOKEN: ${{ github.token }}
         run: brew pr-upload --root-url="$BOTTLE_ROOT_URL" --no-commit
 
-      - name: Commit and push
+      - name: Prepare formula commit
         env:
-          GH_TOKEN: ${{ github.token }}
           MATRIX_PACKAGE: ${{ matrix.package }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          gh auth setup-git
-
           VERSION=$(brew info --json=v1 --formula "evanpurkhiser/personal/${MATRIX_PACKAGE}" | jq -r '.[0].versions.stable')
           VERSION="${VERSION#v}"
 
-          git add "${MATRIX_PACKAGE}.rb"
-          git diff --cached --quiet && {
-            echo "Bottle upload did not produce a formula update."
-            exit 1
-          }
+          echo "FORMULA_COMMIT_MESSAGE=${MATRIX_PACKAGE}: v${VERSION} (bottled)" >> "$GITHUB_ENV"
 
-          git commit -m "${MATRIX_PACKAGE}: v${VERSION} (bottled)"
-          git pull --rebase origin main
-          git push origin HEAD:main
+      - name: Commit and push formula
+        uses: evanpurkhiser/workflows/actions/commit-and-push@main
+        with:
+          stage-script: |
+            git add "${{ matrix.package }}.rb"
+            git diff --cached --quiet && {
+              echo "Bottle upload did not produce a formula update."
+              exit 1
+            }
+          branch: main
+          commit-message: ${{ env.FORMULA_COMMIT_MESSAGE }}
